@@ -12,6 +12,7 @@ public class User {
     private boolean admin;
     private long likesGiven;
     private long likesReceived;
+    private String avatarPath;
 
     public long getId() {
         return id;
@@ -27,5 +28,37 @@ public class User {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
+    public long getLikesGiven() {
+        return likesGiven;
+    }
+
+    public void setLikesGiven(long likesGiven) {
+        this.likesGiven = likesGiven;
+    }
+
+    public long getLikesReceived() {
+        return likesReceived;
+    }
+
+    public void setLikesReceived(long likesReceived) {
+        this.likesReceived = likesReceived;
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 }
