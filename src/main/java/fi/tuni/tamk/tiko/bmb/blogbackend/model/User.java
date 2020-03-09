@@ -1,5 +1,8 @@
 package fi.tuni.tamk.tiko.bmb.blogbackend.model;
 
+import fi.tuni.tamk.tiko.bmb.blogbackend.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
 import java.util.List;
 

@@ -11,7 +11,6 @@ public class Comment {
     private long id;
 
     private long postID;
-    private boolean commentOfComment;
     private String author;
     private String text;
     private long likes;
