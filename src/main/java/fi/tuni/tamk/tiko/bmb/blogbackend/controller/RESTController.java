@@ -18,18 +18,21 @@ public class RESTController {
     @Autowired
     BlogPostRepository blogPostRepository;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/posts")
     @Transactional
     public Iterable<BlogPost> getPosts() {
         return blogPostRepository.findAll();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/posts/{id}")
     @Transactional
     public Optional<BlogPost> getPost(@PathVariable long id) {
         return blogPostRepository.findById(id);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping("/posts")
     @Transactional
     public ResponseEntity<BlogPost> addBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
@@ -39,6 +42,7 @@ public class RESTController {
         return new ResponseEntity<>(b, headers, HttpStatus.CREATED);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PatchMapping("/posts/{id}")
     @Transactional
     public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
@@ -47,6 +51,7 @@ public class RESTController {
         return new ResponseEntity<>(blogPostRepository.save(b), headers, HttpStatus.ACCEPTED);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/posts/{id}")
     @Transactional
     public ResponseEntity<Void> deleteBlogPost(@PathVariable long id) {
