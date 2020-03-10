@@ -14,5 +14,5 @@ public class Comment {
     private String author;
     private String text;
     private long likes;
-    private Date postTime;
+    private String timestamp;
 }
