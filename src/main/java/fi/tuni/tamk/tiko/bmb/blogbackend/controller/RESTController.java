@@ -39,7 +39,7 @@ public class RESTController {
         return new ResponseEntity<>(b, headers, HttpStatus.CREATED);
     }
 
-    @PutMapping("/posts/{id}")
+    @PatchMapping("/posts/{id}")
     @Transactional
     public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
         HttpHeaders headers = new HttpHeaders();
