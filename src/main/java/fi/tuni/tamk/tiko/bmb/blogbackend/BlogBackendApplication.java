@@ -33,15 +33,15 @@ public class BlogBackendApplication implements CommandLineRunner {
 		u.setLikesReceived(0);
 		userDB.save(u);
 
-		for (int i = 0; i < 10; i++) {
-		BlogPost post = new BlogPost();
-		post.setAuthor(u);
-		post.setTitle("Test Post");
-		post.setText(LoremIpsum.loremIpsum);
-		post.setTimestamp("2020-03-09 15:07");
-		post.setLikes(new ArrayList<>());
-		post.setTags(new ArrayList<>());
-		post.setComments(new ArrayList<>());
+		for (int i = 0; i < 5; i++) {
+			BlogPost post = new BlogPost();
+			post.setAuthor(u);
+			post.setTitle("Test Post #" + i);
+			post.setText(LoremIpsum.loremIpsum);
+			post.setTimestamp("2020-03-09 15:07");
+			post.setLikes(new ArrayList<>());
+			post.setTags(new ArrayList<>());
+			post.setComments(new ArrayList<>());
 			blogPostDB.save(post);
 		}
 	}
