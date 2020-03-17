@@ -20,6 +20,7 @@
 ### Modify post
 `PATCH /posts/{id}`
 `curl -X PATCH localhost:8080/api/posts/{id} -d "{ < BlogPost > }" -H "Content-Type:application/json"`
+`curl -X PATCH http://localhost:8080/api/posts/6 -d "{ \"id\":6, \"author\":{ \"id\":1,\"userName\":\"Admin\",\"admin\":true }, \"timestamp\":\"9999-99-99 99:99\" }" -H Content-Type:application/json`
 
 ### Delete post
 `DELETE /posts/{id}`
