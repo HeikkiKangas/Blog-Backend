@@ -29,15 +29,13 @@ public class BlogBackendApplication implements CommandLineRunner {
 		User u = new User();
 		u.setUserName("Admin");
 		u.setAdmin(true);
-		u.setLikesGiven(0);
-		u.setLikesReceived(0);
 		userDB.save(u);
 
 		for (int i = 0; i < 5; i++) {
 			BlogPost post = new BlogPost();
 			post.setAuthor(u);
 			post.setTitle("Test Post #" + i);
-			post.setText(LoremIpsum.loremIpsum);
+			post.setText(LoremIpsum.loremIpsum[0]);
 			post.setTimestamp("2020-03-09 15:07");
 			post.setLikes(new ArrayList<>());
 			post.setTags(new ArrayList<>());

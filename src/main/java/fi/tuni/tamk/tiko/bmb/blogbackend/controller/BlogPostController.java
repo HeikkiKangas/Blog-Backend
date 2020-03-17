@@ -17,32 +17,27 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
-public class RESTController {
-    private int counter = 0;
-
-    @Autowired
-    UserRepository userDB;
-
+@RequestMapping("/api/posts")
+public class BlogPostController {
     @Autowired
     BlogPostRepository blogPostDB;
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/posts")
+    @GetMapping("")
     @Transactional
     public Iterable<BlogPost> getPosts() {
         return blogPostDB.findAll();
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/posts/{id}")
+    @GetMapping("/{id}")
     @Transactional
     public Optional<BlogPost> getPost(@PathVariable long id) {
         return blogPostDB.findById(id);
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PostMapping("/posts")
+    @PostMapping("")
     @Transactional
     public ResponseEntity<BlogPost> addBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
         HttpHeaders headers = new HttpHeaders();
@@ -52,7 +47,7 @@ public class RESTController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @PatchMapping("/posts/{id}")
+    @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
         HttpHeaders headers = new HttpHeaders();
@@ -61,34 +56,10 @@ public class RESTController {
     }
 
     @CrossOrigin(origins = "http://localhost:3000")
-    @DeleteMapping("/posts/{id}")
+    @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteBlogPost(@PathVariable long id) {
         blogPostDB.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-    @CrossOrigin(origins = "http://localhost:3000")
-    @GetMapping("/generateposts")
-    @Transactional
-    public ResponseEntity<BlogPost> generateBlogPosts() {
-        User u = userDB.findAll().iterator().next();
-        counter++;
-
-        for (int i = 0; i < 5; i++) {
-            BlogPost post = new BlogPost();
-            post.setAuthor(u);
-            post.setTitle("Test Post #" + counter + i);
-            post.setText(LoremIpsum.loremIpsum);
-            post.setTimestamp("2020-03-09 15:07");
-            post.setLikes(new ArrayList<>());
-            post.setTags(new ArrayList<>());
-            post.setComments(new ArrayList<>());
-            blogPostDB.save(post);
-        }
-
-        HttpHeaders headers = new HttpHeaders();
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
-    }
-
 }
