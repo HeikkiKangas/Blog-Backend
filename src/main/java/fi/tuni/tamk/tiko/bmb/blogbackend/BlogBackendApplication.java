@@ -26,6 +26,12 @@ public class BlogBackendApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		System.out.println("Team Bare Metal Bunnies: Heikki Kangas, Laura Kanerva, Sanni Kytölä");
+		System.out.println("curl http://localhost:8080/api/posts \n" +
+				"curl http://localhost:8080/api/posts/1 \n" +
+				"curl -X POST http://localhost:8080/api/posts -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
+				"curl -X PATCH http://localhost:8080/api/posts/{id} -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
+				"curl -X DELETE http://localhost:8080/api/posts/{id}");
 		User u = new User();
 		u.setUserName("Admin");
 		u.setAdmin(true);
