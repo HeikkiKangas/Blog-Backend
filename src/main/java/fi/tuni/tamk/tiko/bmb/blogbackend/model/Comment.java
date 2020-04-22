@@ -3,6 +3,7 @@ package fi.tuni.tamk.tiko.bmb.blogbackend.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity

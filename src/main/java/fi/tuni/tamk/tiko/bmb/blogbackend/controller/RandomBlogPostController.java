@@ -39,8 +39,7 @@ public class RandomBlogPostController {
             post.setAuthor(u);
             post.setTitle("Test Post #" + counter + i);
             post.setText(LoremIpsum.loremIpsum[0]);
-            post.setTimestamp("2020-03-09 15:07");
-            post.setLikes(new ArrayList<>());
+            post.setLikes((int) (Math.random() * 10));
             post.setTags(new ArrayList<>());
             post.setComments(new ArrayList<>());
             blogPostDB.save(post);

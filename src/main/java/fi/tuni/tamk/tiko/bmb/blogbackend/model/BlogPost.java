@@ -30,11 +30,9 @@ public class BlogPost {
     private String title;
     @Column(length = 10000)
     private String text;
-    private String timestamp;
+    private int likes;
     @OneToMany
     private List<Comment> comments;
-    @ElementCollection
-    private List<String> likes;
     @ElementCollection
     private List<String> tags;
 
@@ -56,9 +54,9 @@ public class BlogPost {
 
     public void setComments(List<Comment> comments) { this.comments = comments; }
 
-    public List<String> getLikes() { return likes; }
+    public int getLikes() { return likes; }
 
-    public void setLikes(List<String> likes) { this.likes = likes; }
+    public void setLikes(int likes) { this.likes = likes; }
 
     public List<String> getTags() { return tags; }
 
@@ -81,9 +79,13 @@ public class BlogPost {
     }
 
     @Transactional
-    public List<String> addLike(String userName) {
-        likes.add(userName);
-        blogPostDB.save(this);
-        return likes;
+    public int addLike() {
+        return ++likes;
+    }
+
+    @Transactional
+    public List<Comment> addComment(Comment c) {
+        comments.add(c);
+        return comments;
     }
 }
