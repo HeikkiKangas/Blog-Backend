@@ -2,11 +2,12 @@ package fi.tuni.tamk.tiko.bmb.blogbackend.model;
 
 import fi.tuni.tamk.tiko.bmb.blogbackend.repositories.BlogPostRepository;
 import fi.tuni.tamk.tiko.bmb.blogbackend.repositories.CommentRepository;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,6 +18,9 @@ public class BlogPost {
     @Autowired
     @Transient
     CommentRepository commentDB;
+
+    @CreationTimestamp
+    private Date timestamp;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,11 +72,11 @@ public class BlogPost {
         this.title = title;
     }
 
-    public String getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

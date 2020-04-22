@@ -11,6 +11,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 @SpringBootApplication
 public class BlogBackendApplication implements CommandLineRunner {
@@ -36,6 +37,8 @@ public class BlogBackendApplication implements CommandLineRunner {
 		u.setUserName("Admin");
 		u.setAdmin(true);
 		userDB.save(u);
+
+		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 
 		for (int i = 0; i < 5; i++) {
 			BlogPost post = new BlogPost();
