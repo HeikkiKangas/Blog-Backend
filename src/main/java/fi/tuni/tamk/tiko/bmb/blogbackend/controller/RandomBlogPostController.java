@@ -27,7 +27,7 @@ public class RandomBlogPostController {
     BlogPostRepository blogPostDB;
 
     private int counter = 0;
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = "*")
     @GetMapping("")
     @Transactional
     public ResponseEntity<BlogPost> generateBlogPosts() {

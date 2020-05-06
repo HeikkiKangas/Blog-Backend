@@ -16,17 +16,18 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+    private final String CORS = "*";
     @Autowired
     UserRepository userDB;
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CORS)
     @GetMapping("/")
     @Transactional
     public Iterable<User> getUsers() {
         return userDB.findAll();
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CORS)
     @PostMapping("/")
     @Transactional
     public ResponseEntity<User> addUser(@RequestBody User u, UriComponentsBuilder uri) {
@@ -36,14 +37,14 @@ public class UserController {
         return new ResponseEntity<>(u, headers, HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CORS)
     @GetMapping("/{id}")
     @Transactional
     public Optional<User> getUser(@PathVariable long id) {
         return userDB.findById(id);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CORS)
     @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<User> updateUser(@RequestBody User u, UriComponentsBuilder uri) {
@@ -52,7 +53,7 @@ public class UserController {
         return new ResponseEntity<>(userDB.save(u), headers, HttpStatus.ACCEPTED);
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin(origins = CORS)
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
