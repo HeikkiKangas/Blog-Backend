@@ -78,6 +78,7 @@ public class BlogPostController {
     @PostMapping("/{id}/comment")
     @Transactional
     public Comment addComment(@RequestBody Comment c, @PathVariable long id) {
+        c.setPostID(id);
         Optional<BlogPost> b = blogPostDB.findById(id);
         b.ifPresent(post -> {
             commentDB.save(c);
