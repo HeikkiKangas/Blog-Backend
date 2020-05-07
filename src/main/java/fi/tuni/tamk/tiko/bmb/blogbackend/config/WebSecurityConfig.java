@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-/*
+
 @Configuration
 @EnableAutoConfiguration
 @EnableWebSecurity
@@ -22,21 +22,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .httpBasic()
+                .and()
                 .authorizeRequests()
                 // Enable public GET requests to everybody.
                 .antMatchers(HttpMethod.GET, "/**").permitAll()
-                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN")
-                */
-                //.antMatchers(HttpMethod.POST, "/api/posts/*/comment").permitAll()
-                //.antMatchers(HttpMethod.POST, "/api/posts/*/like").permitAll()
-                /*
-                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .csrf().disable().cors().disable();
+                .antMatchers(HttpMethod.DELETE, "/api/**").permitAll()//.hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/api/**").permitAll()//.hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/posts/*/comment").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/posts/*/like").permitAll()
+                .antMatchers(HttpMethod.POST, "/api/**").permitAll()//.hasRole("ADMIN")
+                .anyRequest().authenticated();
+                //.and()
+                //.csrf().disable().cors().disable();
     }
 
     @Override
@@ -54,4 +52,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 }
-*/
