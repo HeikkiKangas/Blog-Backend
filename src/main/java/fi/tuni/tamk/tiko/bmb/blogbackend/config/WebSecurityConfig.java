@@ -22,10 +22,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                //.httpBasic()
-                //.and()
+                .httpBasic().and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll();
+                .antMatchers("/**").permitAll()
                 // Enable public GET requests to everybody.
                 //.antMatchers(HttpMethod.GET, "/**").permitAll()
                 //.antMatchers(HttpMethod.DELETE, "/api/**").permitAll()//.hasRole("ADMIN")
@@ -33,9 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.antMatchers(HttpMethod.POST, "/api/posts/*/comment").permitAll()
                 //.antMatchers(HttpMethod.POST, "/api/posts/*/like").permitAll()
                 //.antMatchers(HttpMethod.POST, "/api/**").permitAll();//.hasRole("ADMIN")
-                //.anyRequest().authenticated();
-                //.and()
-                //.csrf().disable().cors().disable();
+                .anyRequest().authenticated().and()
+                .csrf().disable()
+                .cors().disable();
     }
 
     @Override

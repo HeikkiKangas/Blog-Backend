@@ -62,7 +62,8 @@ public class BlogBackendApplication implements CommandLineRunner {
 			public void addCorsMappings(CorsRegistry registry) {
 				registry
 						.addMapping("/**")
-						.allowedOrigins("https://bmb-blog.herokuapp.com")
+						.allowedOrigins("*")
+						//.allowedOrigins("https://bmb-blog.herokuapp.com")
 						.allowedMethods("GET", "POST", "DELETE", "PATCH");
 			}
 		};
