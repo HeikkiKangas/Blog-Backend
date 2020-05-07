@@ -17,13 +17,11 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/posts")
 public class BlogPostController {
-    private final String CORS = "https://bmb-blog.herokuapp.com";
     @Autowired
     BlogPostRepository blogPostDB;
     @Autowired
     CommentRepository commentDB;
 
-    //@CrossOrigin(origins = CORS)
     @GetMapping("")
     @Transactional
     public Iterable<BlogPost> getPosts() {
@@ -36,14 +34,12 @@ public class BlogPostController {
     private Comparator<BlogPost> compareByTimestamp = (BlogPost p1, BlogPost p2) ->
             p1.getTimestamp().compareTo(p2.getTimestamp());
 
-    //@CrossOrigin(origins = CORS)
     @GetMapping("/{id}")
     @Transactional
     public Optional<BlogPost> getPost(@PathVariable long id) {
         return blogPostDB.findById(id);
     }
 
-    //@CrossOrigin(origins = CORS)
     @PostMapping("")
     @Transactional
     public ResponseEntity<BlogPost> addBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
@@ -53,7 +49,32 @@ public class BlogPostController {
         return new ResponseEntity<>(b, headers, HttpStatus.CREATED);
     }
 
-    //@CrossOrigin(origins = CORS)
+    @PostMapping("/{id}/like")
+    @Transactional
+    public Map<String, Integer> addLike(@PathVariable long id) {
+        Optional<BlogPost> b = blogPostDB.findById(id);
+        b.ifPresent(post -> {
+            post.addLike();
+            blogPostDB.save(post);
+        });
+        return Collections.singletonMap("likes", b.map(BlogPost::getLikes).orElse(-1));
+    }
+
+    @PatchMapping("/{id}")
+    @Transactional
+    public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uri.path("/posts/{id}").buildAndExpand(b.getId()).toUri());
+        return new ResponseEntity<>(blogPostDB.save(b), headers, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<Void> deleteBlogPost(@PathVariable long id) {
+        blogPostDB.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
     @PostMapping("/{id}/comment")
     @Transactional
     public Comment addComment(@RequestBody Comment c, @PathVariable long id) {
@@ -66,32 +87,14 @@ public class BlogPostController {
         return b.isPresent() ? c : null;
     }
 
-    //@CrossOrigin(origins = CORS)
-    @PostMapping("/{id}/like")
+    @DeleteMapping("/{postId}/comment/{commentId}")
     @Transactional
-    public Map<String, Integer> addLike(@PathVariable long id) {
-        Optional<BlogPost> b = blogPostDB.findById(id);
-        b.ifPresent(post -> {
-            post.addLike();
-            blogPostDB.save(post);
-        });
-        return Collections.singletonMap("likes", b.map(BlogPost::getLikes).orElse(-1));
-    }
-
-    //@CrossOrigin(origins = CORS)
-    @PatchMapping("/{id}")
-    @Transactional
-    public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uri.path("/posts/{id}").buildAndExpand(b.getId()).toUri());
-        return new ResponseEntity<>(blogPostDB.save(b), headers, HttpStatus.ACCEPTED);
-    }
-
-    //@CrossOrigin(origins = CORS)
-    @DeleteMapping("/{id}")
-    @Transactional
-    public ResponseEntity<Void> deleteBlogPost(@PathVariable long id) {
-        blogPostDB.deleteById(id);
+    public ResponseEntity<Void> deleteComment(@PathVariable long postId, @PathVariable long commentId) {
+        BlogPost post = blogPostDB.findById(postId).get();
+        Comment comment = commentDB.findById(commentId).get();
+        post.getComments().remove(comment);
+        commentDB.delete(comment);
+        blogPostDB.save(post);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
