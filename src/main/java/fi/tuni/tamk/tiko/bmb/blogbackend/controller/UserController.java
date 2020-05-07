@@ -20,14 +20,14 @@ public class UserController {
     @Autowired
     UserRepository userDB;
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @GetMapping("/")
     @Transactional
     public Iterable<User> getUsers() {
         return userDB.findAll();
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @PostMapping("/")
     @Transactional
     public ResponseEntity<User> addUser(@RequestBody User u, UriComponentsBuilder uri) {
@@ -37,14 +37,14 @@ public class UserController {
         return new ResponseEntity<>(u, headers, HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @GetMapping("/{id}")
     @Transactional
     public Optional<User> getUser(@PathVariable long id) {
         return userDB.findById(id);
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<User> updateUser(@RequestBody User u, UriComponentsBuilder uri) {
@@ -53,7 +53,7 @@ public class UserController {
         return new ResponseEntity<>(userDB.save(u), headers, HttpStatus.ACCEPTED);
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {

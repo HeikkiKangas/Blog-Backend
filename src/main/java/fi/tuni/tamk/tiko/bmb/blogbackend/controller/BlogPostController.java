@@ -25,21 +25,21 @@ public class BlogPostController {
     @Autowired
     CommentRepository commentDB;
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @GetMapping("")
     @Transactional
     public Iterable<BlogPost> getPosts() {
         return blogPostDB.findAll();
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @GetMapping("/{id}")
     @Transactional
     public Optional<BlogPost> getPost(@PathVariable long id) {
         return blogPostDB.findById(id);
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @PostMapping("")
     @Transactional
     public ResponseEntity<BlogPost> addBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
@@ -49,7 +49,7 @@ public class BlogPostController {
         return new ResponseEntity<>(b, headers, HttpStatus.CREATED);
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @PostMapping("/{id}/comment")
     @Transactional
     public Comment addComment(@RequestBody Comment c, @PathVariable long id) {
@@ -62,7 +62,7 @@ public class BlogPostController {
         return b.isPresent() ? c : null;
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @PostMapping("/{id}/like")
     @Transactional
     public Map<String, Integer> addLike(@PathVariable long id) {
@@ -74,7 +74,7 @@ public class BlogPostController {
         return Collections.singletonMap("likes", b.map(BlogPost::getLikes).orElse(-1));
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
@@ -83,7 +83,7 @@ public class BlogPostController {
         return new ResponseEntity<>(blogPostDB.save(b), headers, HttpStatus.ACCEPTED);
     }
 
-    @CrossOrigin(origins = CORS)
+    //@CrossOrigin(origins = CORS)
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteBlogPost(@PathVariable long id) {
