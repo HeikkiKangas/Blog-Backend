@@ -1,5 +1,8 @@
 package fi.tuni.tamk.tiko.bmb.blogbackend.model;
 
+/**
+ * Lorem ipsum is used to create test posts.
+ */
 public class LoremIpsum {
     public static String[] loremIpsum = {
             "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas maximus lacinia sagittis. Aliquam non rutrum sapien. Vestibulum aliquet nulla in felis semper porttitor. Quisque fermentum eleifend urna, sagittis convallis quam cursus aliquet. Etiam nec nibh vel velit lobortis auctor. Pellentesque vehicula tortor quis purus auctor, eu dignissim dui vulputate. In tincidunt nisl ac massa varius fringilla. Maecenas pulvinar metus congue, viverra massa a, ornare elit. Maecenas viverra orci non ultrices rutrum. Etiam commodo non elit in ultricies. Vestibulum quis iaculis enim, id posuere lorem. Sed justo nisi, commodo sit amet tincidunt non, commodo sit amet quam. Morbi nec vehicula purus, eu vestibulum neque. Duis iaculis, felis eu finibus maximus, erat lorem convallis purus, fringilla vehicula erat nisi ut erat. Donec in felis at erat lacinia venenatis. Phasellus malesuada ante quis iaculis accumsan.\n",

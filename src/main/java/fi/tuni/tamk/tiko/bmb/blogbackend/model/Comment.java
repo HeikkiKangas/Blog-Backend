@@ -5,6 +5,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * Class represents a single comment in a blog posts.
+ */
 @Entity
 public class Comment {
     @Id
@@ -20,10 +23,20 @@ public class Comment {
     @CreationTimestamp
     private Date timestamp;
 
+    /**
+     * Returns the id of the comment in long format.
+     *
+     * @return  id of the comment
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Assigns an id to the comment.
+     *
+     * @param id    id for the comment
+     */
     public void setId(long id) {
         this.id = id;
     }

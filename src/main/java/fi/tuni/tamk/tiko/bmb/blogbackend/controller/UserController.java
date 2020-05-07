@@ -12,18 +12,33 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
+/**
+ *  Class controls the blog site users.
+ */
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
     @Autowired
     UserRepository userDB;
 
+    /**
+     * Calls the UserRepository and gets all users in the database.
+     *
+     * @return  list of all users
+     */
     @GetMapping("/")
     @Transactional
     public Iterable<User> getUsers() {
         return userDB.findAll();
     }
 
+    /**
+     * Method adds a new user to the user repository.
+     *
+     * @param u     a User object
+     * @param uri   a UriComponentsBuilder
+     * @return      url to the created user
+     */
     @PostMapping("/")
     @Transactional
     public ResponseEntity<User> addUser(@RequestBody User u, UriComponentsBuilder uri) {
@@ -33,12 +48,27 @@ public class UserController {
         return new ResponseEntity<>(u, headers, HttpStatus.CREATED);
     }
 
+    /**
+     * Finds the user of the specified id in the database
+     * and returns the user.
+     *
+     * @param id    id of the wanted user
+     * @return      a User object
+     */
     @GetMapping("/{id}")
     @Transactional
     public Optional<User> getUser(@PathVariable long id) {
         return userDB.findById(id);
     }
 
+    /**
+     * Method updates the user in the database
+     * and return a url to the updated user.
+     *
+     * @param u     a User object
+     * @param uri   a UriComponentsBuilder
+     * @return      url to the updated user
+     */
     @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<User> updateUser(@RequestBody User u, UriComponentsBuilder uri) {
@@ -47,6 +77,12 @@ public class UserController {
         return new ResponseEntity<>(userDB.save(u), headers, HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Deletes user with the specified id from the database.
+     *
+     * @param id    id of the user to be deleted
+     * @return      no content if user was deleted successfully
+     */
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {

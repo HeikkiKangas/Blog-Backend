@@ -16,6 +16,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.ArrayList;
 import java.util.TimeZone;
 
+/**
+ * Main class in the application.
+ * Contains the main method.
+ */
 @SpringBootApplication
 public class BlogBackendApplication implements CommandLineRunner {
 	@Autowired
@@ -60,6 +64,11 @@ public class BlogBackendApplication implements CommandLineRunner {
 		}
 	}
 
+	/**
+	 * Configures CORS and returns a new WebMvcConfigurer.
+	 *
+	 * @return	new WebMvcConfigurer
+	 */
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
