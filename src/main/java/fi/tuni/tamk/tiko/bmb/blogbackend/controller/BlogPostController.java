@@ -14,6 +14,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.transaction.Transactional;
 import java.util.*;
 
+/**
+ * Controls blog posts and comments and likes in blog posts.
+ */
 @RestController
 @RequestMapping("/api/posts")
 public class BlogPostController {
@@ -22,6 +25,11 @@ public class BlogPostController {
     @Autowired
     CommentRepository commentDB;
 
+    /**
+     * Returns all blog posts.
+     *
+     * @return List of all blog posts in the database.
+     */
     @GetMapping("")
     @Transactional
     public Iterable<BlogPost> getPosts() {
@@ -34,12 +42,24 @@ public class BlogPostController {
     private Comparator<BlogPost> compareByTimestamp = (BlogPost p1, BlogPost p2) ->
             p1.getTimestamp().compareTo(p2.getTimestamp());
 
+    /**
+     * Returns one blog post with given id.
+     *
+     * @param id Post's id.
+     * @return blog post given id.
+     */
     @GetMapping("/{id}")
     @Transactional
     public Optional<BlogPost> getPost(@PathVariable long id) {
         return blogPostDB.findById(id);
     }
 
+    /**
+     * Adds blog post to database.
+     * @param b Blog post which will be added.
+     * @param uri Builds URL for new blog post.
+     * @return ResponseEntity which contains blog post, headers and HTTP Status.
+     */
     @PostMapping("")
     @Transactional
     public ResponseEntity<BlogPost> addBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
@@ -49,6 +69,32 @@ public class BlogPostController {
         return new ResponseEntity<>(b, headers, HttpStatus.CREATED);
     }
 
+    /**
+     * Adds comment to blog post.
+     *
+     * @param c Comment
+     * @param id Id of the blog post in which the comment will be added.
+     * @return The added comment or null.
+     */
+    @PostMapping("/{id}/comment")
+    @Transactional
+    public Comment addComment(@RequestBody Comment c, @PathVariable long id) {
+        Optional<BlogPost> b = blogPostDB.findById(id);
+        b.ifPresent(post -> {
+            commentDB.save(c);
+            post.addComment(c);
+            blogPostDB.save(post);
+        });
+        return b.isPresent() ? c : null;
+    }
+
+    /**
+     * Adds like to blog post.
+     *
+     * @param id Id of the blog post in which the like will be added.
+     * @return Returns the amount of likes.
+     */
+    //@CrossOrigin(origins = CORS)
     @PostMapping("/{id}/like")
     @Transactional
     public Map<String, Long> addLike(@PathVariable long id) {
@@ -60,6 +106,12 @@ public class BlogPostController {
         return Collections.singletonMap("likes", b.map(BlogPost::getLikes).orElse((long) -1));
     }
 
+    /**
+     * Updates blog post data with given data.
+     * @param b The blog post which will be updated.
+     * @param uri Gives URL to updated blog post.
+     * @return ResponseEntity which contains blog post, headers and HTTP Status.
+     */
     @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
@@ -68,24 +120,17 @@ public class BlogPostController {
         return new ResponseEntity<>(blogPostDB.save(b), headers, HttpStatus.ACCEPTED);
     }
 
+    /**
+     * Deletes blog post from database.
+     *
+     * @param id The id of the blog post which will be deleted.
+     * @return Returns response code 204 if successful.
+     */
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteBlogPost(@PathVariable long id) {
         blogPostDB.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @PostMapping("/{id}/comment")
-    @Transactional
-    public Comment addComment(@RequestBody Comment c, @PathVariable long id) {
-        c.setPostID(id);
-        Optional<BlogPost> b = blogPostDB.findById(id);
-        b.ifPresent(post -> {
-            commentDB.save(c);
-            post.addComment(c);
-            blogPostDB.save(post);
-        });
-        return b.isPresent() ? c : null;
     }
 
     @PostMapping("/{postId}/comment/{commentId}/like")

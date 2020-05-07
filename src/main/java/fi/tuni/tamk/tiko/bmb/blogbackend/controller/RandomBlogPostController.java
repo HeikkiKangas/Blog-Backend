@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 
+/**
+ * Creates random blog posts.
+ */
 @RestController
 @RequestMapping("/api/generateposts")
 public class RandomBlogPostController {
@@ -28,6 +31,12 @@ public class RandomBlogPostController {
     BlogPostRepository blogPostDB;
 
     private int counter = 0;
+
+    /**
+     * Method for generating five random blogposts.
+     *
+     * @return ResponseEntity with headers and HTTP Status
+     */
     //@CrossOrigin(origins = CORS)
     @GetMapping("")
     @Transactional
