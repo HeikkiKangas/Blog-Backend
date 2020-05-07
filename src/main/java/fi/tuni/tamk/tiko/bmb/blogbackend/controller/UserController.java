@@ -1,6 +1,5 @@
 package fi.tuni.tamk.tiko.bmb.blogbackend.controller;
 
-import fi.tuni.tamk.tiko.bmb.blogbackend.model.BlogPost;
 import fi.tuni.tamk.tiko.bmb.blogbackend.model.User;
 import fi.tuni.tamk.tiko.bmb.blogbackend.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,18 +15,15 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final String CORS = "https://bmb-blog.herokuapp.com";
     @Autowired
     UserRepository userDB;
 
-    //@CrossOrigin(origins = CORS)
     @GetMapping("/")
     @Transactional
     public Iterable<User> getUsers() {
         return userDB.findAll();
     }
 
-    //@CrossOrigin(origins = CORS)
     @PostMapping("/")
     @Transactional
     public ResponseEntity<User> addUser(@RequestBody User u, UriComponentsBuilder uri) {
@@ -37,14 +33,12 @@ public class UserController {
         return new ResponseEntity<>(u, headers, HttpStatus.CREATED);
     }
 
-    //@CrossOrigin(origins = CORS)
     @GetMapping("/{id}")
     @Transactional
     public Optional<User> getUser(@PathVariable long id) {
         return userDB.findById(id);
     }
 
-    //@CrossOrigin(origins = CORS)
     @PatchMapping("/{id}")
     @Transactional
     public ResponseEntity<User> updateUser(@RequestBody User u, UriComponentsBuilder uri) {
@@ -53,7 +47,6 @@ public class UserController {
         return new ResponseEntity<>(userDB.save(u), headers, HttpStatus.ACCEPTED);
     }
 
-    //@CrossOrigin(origins = CORS)
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
