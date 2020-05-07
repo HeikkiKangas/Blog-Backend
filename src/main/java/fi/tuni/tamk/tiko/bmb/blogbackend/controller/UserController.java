@@ -16,7 +16,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
-    private final String CORS = "*";
+    private final String CORS = "https://bmb-blog.herokuapp.com";
     @Autowired
     UserRepository userDB;
 

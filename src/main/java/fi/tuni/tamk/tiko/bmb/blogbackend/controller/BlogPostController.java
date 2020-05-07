@@ -19,7 +19,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/posts")
 public class BlogPostController {
-    private final String CORS = "*";
+    private final String CORS = "https://bmb-blog.herokuapp.com";
     @Autowired
     BlogPostRepository blogPostDB;
     @Autowired
