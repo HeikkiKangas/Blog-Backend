@@ -12,9 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.transaction.Transactional;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -29,8 +27,14 @@ public class BlogPostController {
     @GetMapping("")
     @Transactional
     public Iterable<BlogPost> getPosts() {
-        return blogPostDB.findAll();
+        List<BlogPost> list = new ArrayList<>();
+        blogPostDB.findAll().forEach(p -> list.add(p));
+        Collections.sort(list, compareByTimestamp.reversed());
+        return list;
     }
+
+    private Comparator<BlogPost> compareByTimestamp = (BlogPost p1, BlogPost p2) ->
+            p1.getTimestamp().compareTo(p2.getTimestamp());
 
     //@CrossOrigin(origins = CORS)
     @GetMapping("/{id}")
