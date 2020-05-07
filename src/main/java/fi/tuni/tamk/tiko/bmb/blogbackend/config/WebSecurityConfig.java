@@ -31,8 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PATCH, "/api/**").permitAll()//.hasRole("ADMIN")
                 .antMatchers(HttpMethod.POST, "/api/posts/*/comment").permitAll()
                 .antMatchers(HttpMethod.POST, "/api/posts/*/like").permitAll()
-                .antMatchers(HttpMethod.POST, "/api/**").permitAll()//.hasRole("ADMIN")
-                .anyRequest().authenticated();
+                .antMatchers(HttpMethod.POST, "/api/**").permitAll();//.hasRole("ADMIN")
+                //.anyRequest().authenticated();
                 //.and()
                 //.csrf().disable().cors().disable();
     }
