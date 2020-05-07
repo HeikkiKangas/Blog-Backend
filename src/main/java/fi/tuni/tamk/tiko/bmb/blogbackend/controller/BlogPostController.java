@@ -51,13 +51,13 @@ public class BlogPostController {
 
     @PostMapping("/{id}/like")
     @Transactional
-    public Map<String, Integer> addLike(@PathVariable long id) {
+    public Map<String, Long> addLike(@PathVariable long id) {
         Optional<BlogPost> b = blogPostDB.findById(id);
         b.ifPresent(post -> {
             post.addLike();
             blogPostDB.save(post);
         });
-        return Collections.singletonMap("likes", b.map(BlogPost::getLikes).orElse(-1));
+        return Collections.singletonMap("likes", b.map(BlogPost::getLikes).orElse((long) -1));
     }
 
     @PatchMapping("/{id}")
@@ -86,6 +86,17 @@ public class BlogPostController {
             blogPostDB.save(post);
         });
         return b.isPresent() ? c : null;
+    }
+
+    @PostMapping("/{postId}/comment/{commentId}/like")
+    @Transactional
+    public Map<String, Long> addCommentLike(@PathVariable long postId, @PathVariable long commentId) {
+        Optional<Comment> c = commentDB.findById(commentId);
+        c.ifPresent(comment -> {
+            comment.addLike();
+            commentDB.save(comment);
+        });
+        return Collections.singletonMap("likes", c.map(Comment::getLikes).orElse((long) -1));
     }
 
     @DeleteMapping("/{postId}/comment/{commentId}")

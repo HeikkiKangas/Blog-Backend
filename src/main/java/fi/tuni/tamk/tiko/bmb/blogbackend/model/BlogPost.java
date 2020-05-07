@@ -30,7 +30,7 @@ public class BlogPost {
     private String title;
     @Column(length = 10000)
     private String text;
-    private int likes;
+    private long likes;
     @OneToMany
     private List<Comment> comments;
     @ElementCollection
@@ -54,9 +54,9 @@ public class BlogPost {
 
     public void setComments(List<Comment> comments) { this.comments = comments; }
 
-    public int getLikes() { return likes; }
+    public long getLikes() { return likes; }
 
-    public void setLikes(int likes) { this.likes = likes; }
+    public void setLikes(long likes) { this.likes = likes; }
 
     public List<String> getTags() { return tags; }
 
@@ -79,7 +79,7 @@ public class BlogPost {
     }
 
     @Transactional
-    public int addLike() {
+    public long addLike() {
         return ++likes;
     }
 

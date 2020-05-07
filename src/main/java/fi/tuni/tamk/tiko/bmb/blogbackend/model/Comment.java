@@ -3,7 +3,6 @@ package fi.tuni.tamk.tiko.bmb.blogbackend.model;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -15,6 +14,8 @@ public class Comment {
     private long postID;
     private String author;
     private String text;
+
+    private long likes;
 
     @CreationTimestamp
     private Date timestamp;
@@ -57,5 +58,17 @@ public class Comment {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(long likes) {
+        this.likes = likes;
+    }
+
+    public long addLike() {
+        return ++likes;
     }
 }
