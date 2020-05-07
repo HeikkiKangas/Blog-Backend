@@ -32,10 +32,15 @@ public class BlogBackendApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		System.out.println("Team Bare Metal Bunnies: Heikki Kangas, Laura Kanerva, Sanni Kytölä");
 		System.out.println("curl http://localhost:8080/api/posts \n" +
-				"curl http://localhost:8080/api/posts/1 \n" +
+				"curl http://localhost:8080/api/posts/{post id} \n" +
 				"curl -X POST http://localhost:8080/api/posts -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
-				"curl -X PATCH http://localhost:8080/api/posts/{id} -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
-				"curl -X DELETE http://localhost:8080/api/posts/{id}");
+				"curl -X PATCH http://localhost:8080/api/posts/{post id} -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
+				"curl -X DELETE http://localhost:8080/api/posts/{post id} \n" +
+				"curl http://localhost:8080/api/generateposts \n" +
+				"curl -X POST http://localhost:8080/api/posts/{post id}/like \n" +
+				"curl -X POST http://localhost:8080/api/posts/{post id}/comment -d \"{ < Comment > }\" -H \"Content-Type:application/json\" \n" +
+				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id} \n" +
+				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id}/like");
 		User u = new User();
 		u.setUserName("Admin");
 		u.setAdmin(true);
