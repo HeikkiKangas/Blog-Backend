@@ -24,17 +24,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .httpBasic().and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                //.antMatchers("/**").permitAll()
                 // Enable public GET requests to everybody.
-                //.antMatchers(HttpMethod.GET, "/**").permitAll()
-                //.antMatchers(HttpMethod.DELETE, "/api/**").permitAll()//.hasRole("ADMIN")
-                //.antMatchers(HttpMethod.PATCH, "/api/**").permitAll()//.hasRole("ADMIN")
-                //.antMatchers(HttpMethod.POST, "/api/posts/*/comment").permitAll()
-                //.antMatchers(HttpMethod.POST, "/api/posts/*/like").permitAll()
-                //.antMatchers(HttpMethod.POST, "/api/**").permitAll();//.hasRole("ADMIN")
-                .anyRequest().authenticated().and()
+                .antMatchers(HttpMethod.GET, "/**").permitAll()
+                .antMatchers(HttpMethod.POST,
+                        "/api/posts/*/comment",
+                        "/api/posts/*/like",
+                        "/api/posts/*/comment/*/like").permitAll()
+                .antMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/**").hasRole("ADMIN")
+                //.anyRequest().authenticated()
+                .and()
                 .csrf().disable()
-                .cors().disable();
+                .cors();
     }
 
     @Override
