@@ -89,4 +89,9 @@ public class UserController {
         userDB.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/login")
+    public ResponseEntity<Optional<User>> loginUser(@RequestHeader("username") String userName) {
+        return new ResponseEntity<>(userDB.findByUserName(userName), HttpStatus.OK);
+    }
 }
