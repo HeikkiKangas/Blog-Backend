@@ -73,6 +73,11 @@ public class Comment {
         this.timestamp = timestamp;
     }
 
+    /**
+     * Returns the amount of likes a comment has.
+     *
+     * @return  amount of likes
+     */
     public long getLikes() {
         return likes;
     }
@@ -81,6 +86,12 @@ public class Comment {
         this.likes = likes;
     }
 
+    /**
+     * Adds another like to the comment
+     * and returns the new amount.
+     *
+     * @return  new amount of likes
+     */
     public long addLike() {
         return ++likes;
     }

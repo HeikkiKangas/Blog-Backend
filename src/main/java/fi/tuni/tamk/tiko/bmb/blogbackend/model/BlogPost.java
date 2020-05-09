@@ -102,6 +102,11 @@ public class BlogPost {
 
     public List<String> getTags() { return tags; }
 
+    /**
+     * Assigns tags to the blog post.
+     *
+     * @param tags  list of used tags
+     */
     public void setTags(List<String> tags) { this.tags = tags; }
 
     public String getTitle() {
@@ -117,6 +122,12 @@ public class BlogPost {
         this.title = title;
     }
 
+    /**
+     * Returns the timestamp when post was created
+     * in a Date format.
+     *
+     * @return  date post was created
+     */
     public Date getTimestamp() {
         return timestamp;
     }

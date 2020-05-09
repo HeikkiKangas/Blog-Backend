@@ -133,6 +133,13 @@ public class BlogPostController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     *  Adds a like to a selected comment on a selected post.
+     *
+     * @param postId    id of the post
+     * @param commentId id of the liked comment
+     * @return          mapped likes
+     */
     @PostMapping("/{postId}/comment/{commentId}/like")
     @Transactional
     public Map<String, Long> addCommentLike(@PathVariable long postId, @PathVariable long commentId) {
@@ -144,6 +151,14 @@ public class BlogPostController {
         return Collections.singletonMap("likes", c.map(Comment::getLikes).orElse((long) -1));
     }
 
+    /**
+     *  Removes selected comment from selected post
+     *  and returns http status code 204.
+     *
+     * @param postId        id of the post
+     * @param commentId     id of the chosen comment
+     * @return              http status 204
+     */
     @DeleteMapping("/{postId}/comment/{commentId}")
     @Transactional
     public ResponseEntity<Void> deleteComment(@PathVariable long postId, @PathVariable long commentId) {

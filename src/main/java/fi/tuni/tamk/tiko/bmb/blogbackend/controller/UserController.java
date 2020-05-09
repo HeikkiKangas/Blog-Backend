@@ -90,6 +90,13 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     *  Logs user in if they match the username,
+     *  otherwise returns an error code.
+     *
+     * @param userName  username used for login
+     * @return          user matching the username or error code
+     */
     @GetMapping("/login")
     public ResponseEntity<Optional<User>> loginUser(@RequestHeader("username") String userName) {
         return new ResponseEntity<>(userDB.findByUserName(userName), HttpStatus.OK);
