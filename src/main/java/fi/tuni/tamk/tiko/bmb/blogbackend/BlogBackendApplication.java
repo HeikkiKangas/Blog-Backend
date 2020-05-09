@@ -46,7 +46,7 @@ public class BlogBackendApplication implements CommandLineRunner {
 				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id} \n" +
 				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id}/like");
 		User u = new User();
-		u.setUserName("admin");
+		u.setUsername("admin");
 		u.setAdmin(true);
 		userDB.save(u);
 

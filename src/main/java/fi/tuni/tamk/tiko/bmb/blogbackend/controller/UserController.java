@@ -92,6 +92,6 @@ public class UserController {
 
     @GetMapping("/login")
     public ResponseEntity<Optional<User>> loginUser(@RequestHeader("username") String userName) {
-        return new ResponseEntity<>(userDB.findByUserName(userName), HttpStatus.OK);
+        return new ResponseEntity<>(userDB.findByUsername(userName), HttpStatus.OK);
     }
 }

@@ -1,10 +1,8 @@
 package fi.tuni.tamk.tiko.bmb.blogbackend.model;
 
-import fi.tuni.tamk.tiko.bmb.blogbackend.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
 
 /**
  * Every blog post has a user as an author.
@@ -14,7 +12,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String userName;
+    private String username;
     private boolean admin;
 
     /**
@@ -40,8 +38,8 @@ public class User {
      *
      * @return  name of the user
      */
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
     /**
@@ -49,8 +47,8 @@ public class User {
      *
      * @param userName  user's chosen name
      */
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     /**
