@@ -2,7 +2,10 @@ package fi.tuni.tamk.tiko.bmb.blogbackend.model;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -83,5 +86,17 @@ public class Comment {
 
     public long addLike() {
         return ++likes;
+    }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", postID=" + postID +
+                ", author='" + author + '\'' +
+                ", text='" + text + '\'' +
+                ", likes=" + likes +
+                ", timestamp=" + timestamp +
+                '}';
     }
 }

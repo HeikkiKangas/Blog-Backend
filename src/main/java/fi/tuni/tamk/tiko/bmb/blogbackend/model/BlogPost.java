@@ -36,8 +36,6 @@ public class BlogPost {
     private long likes;
     @OneToMany
     private List<Comment> comments;
-    @ElementCollection
-    private List<String> tags;
 
     /**
      * Class constructor.
@@ -100,10 +98,6 @@ public class BlogPost {
      */
     public void setLikes(long likes) { this.likes = likes; }
 
-    public List<String> getTags() { return tags; }
-
-    public void setTags(List<String> tags) { this.tags = tags; }
-
     public String getTitle() {
         return title;
     }
@@ -145,5 +139,18 @@ public class BlogPost {
     public List<Comment> addComment(Comment c) {
         comments.add(c);
         return comments;
+    }
+
+    @Override
+    public String toString() {
+        return "BlogPost{" +
+                "timestamp=" + timestamp +
+                ", id=" + id +
+                ", author=" + author +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", likes=" + likes +
+                ", comments=" + comments +
+                '}';
     }
 }

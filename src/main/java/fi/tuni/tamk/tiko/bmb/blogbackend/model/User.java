@@ -2,7 +2,11 @@ package fi.tuni.tamk.tiko.bmb.blogbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 /**
  * Every blog post has a user as an author.
@@ -12,8 +16,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @NotBlank
     private String username;
+    @NotBlank
+    @JsonIgnore
+    private String password;
     private boolean admin;
+
+    public User() {}
+
+    public User(@NotBlank String username, @NotBlank String password, boolean admin) {
+        this.username = username;
+        this.password = password;
+        this.admin = admin;
+    }
 
     /**
      * Returns the id of user in long format.
@@ -67,5 +83,30 @@ public class User {
      */
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    /**
+     * Getter for password.
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * Setter for password.
+     * @param password new password.
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", admin=" + admin +
+                '}';
     }
 }

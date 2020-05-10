@@ -10,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -28,6 +30,11 @@ public class BlogBackendApplication implements CommandLineRunner {
 	@Autowired
 	UserRepository userDB;
 
+	@Bean
+	PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(BlogBackendApplication.class, args);
 	}
@@ -35,7 +42,8 @@ public class BlogBackendApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Team Bare Metal Bunnies: Heikki Kangas, Laura Kanerva, Sanni Kytölä");
-		System.out.println("curl http://localhost:8080/api/posts \n" +
+		System.out.println(
+				"curl http://localhost:8080/api/posts \n" +
 				"curl http://localhost:8080/api/posts/{post id} \n" +
 				"curl -X POST http://localhost:8080/api/posts -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
 				"curl -X PATCH http://localhost:8080/api/posts/{post id} -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
@@ -44,10 +52,10 @@ public class BlogBackendApplication implements CommandLineRunner {
 				"curl -X POST http://localhost:8080/api/posts/{post id}/like \n" +
 				"curl -X POST http://localhost:8080/api/posts/{post id}/comment -d \"{ < Comment > }\" -H \"Content-Type:application/json\" \n" +
 				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id} \n" +
-				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id}/like");
-		User u = new User();
-		u.setUsername("admin");
-		u.setAdmin(true);
+				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id}/like"
+		);
+
+		User u = new User("admin", passwordEncoder().encode("admin"), true);
 		userDB.save(u);
 
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
@@ -58,7 +66,6 @@ public class BlogBackendApplication implements CommandLineRunner {
 			post.setTitle("Test Post #" + i);
 			post.setText(LoremIpsum.loremIpsum[0]);
 			post.setLikes((int) (Math.random() * 10));
-			post.setTags(new ArrayList<>());
 			post.setComments(new ArrayList<>());
 			blogPostDB.save(post);
 		}

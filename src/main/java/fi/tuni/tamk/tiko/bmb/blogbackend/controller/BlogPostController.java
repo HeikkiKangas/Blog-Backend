@@ -35,12 +35,15 @@ public class BlogPostController {
     public Iterable<BlogPost> getPosts() {
         List<BlogPost> list = new ArrayList<>();
         blogPostDB.findAll().forEach(p -> list.add(p));
-        Collections.sort(list, compareByTimestamp.reversed());
+        Collections.sort(list, sortById.reversed());
         return list;
     }
 
-    private Comparator<BlogPost> compareByTimestamp = (BlogPost p1, BlogPost p2) ->
-            p1.getTimestamp().compareTo(p2.getTimestamp());
+    /**
+     * Comparator for sorting blog posts by id.
+     */
+    private Comparator<BlogPost> sortById = (BlogPost p1, BlogPost p2) ->
+            Long.compare(p1.getId(), p2.getId());
 
     /**
      * Returns one blog post with given id.
@@ -78,14 +81,19 @@ public class BlogPostController {
      */
     @PostMapping("/{id}/comment")
     @Transactional
-    public Comment addComment(@RequestBody Comment c, @PathVariable long id) {
+    public Optional<BlogPost> addComment(@RequestBody Comment c, @PathVariable long id) {
+        System.out.println("Add comment, postId: " + id);
+        System.out.println(c);
         Optional<BlogPost> b = blogPostDB.findById(id);
         b.ifPresent(post -> {
+            c.setPostID(id);
             commentDB.save(c);
             post.addComment(c);
             blogPostDB.save(post);
+            System.out.println("After saving:\n" + c);
+            post.getComments().forEach(System.out::println);
         });
-        return b.isPresent() ? c : null;
+        return b;
     }
 
     /**
@@ -94,30 +102,30 @@ public class BlogPostController {
      * @param id Id of the blog post in which the like will be added.
      * @return Returns the amount of likes.
      */
-    //@CrossOrigin(origins = CORS)
     @PostMapping("/{id}/like")
     @Transactional
-    public Map<String, Long> addLike(@PathVariable long id) {
+    public Optional<BlogPost> addLike(@PathVariable long id) {
         Optional<BlogPost> b = blogPostDB.findById(id);
         b.ifPresent(post -> {
             post.addLike();
             blogPostDB.save(post);
         });
-        return Collections.singletonMap("likes", b.map(BlogPost::getLikes).orElse((long) -1));
+        return b;
     }
 
     /**
      * Updates blog post data with given data.
      * @param b The blog post which will be updated.
-     * @param uri Gives URL to updated blog post.
-     * @return ResponseEntity which contains blog post, headers and HTTP Status.
+     * @return ResponseEntity which contains blog post and HTTP Status.
      */
     @PatchMapping("/{id}")
     @Transactional
-    public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b, UriComponentsBuilder uri) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uri.path("/posts/{id}").buildAndExpand(b.getId()).toUri());
-        return new ResponseEntity<>(blogPostDB.save(b), headers, HttpStatus.ACCEPTED);
+    public ResponseEntity<BlogPost> updateBlogPost(@RequestBody BlogPost b) {
+        BlogPost original = blogPostDB.findById(b.getId()).get();
+        original.setTitle(b.getTitle());
+        original.setText(b.getText());
+        blogPostDB.save(original);
+        return new ResponseEntity<>(original, HttpStatus.ACCEPTED);
     }
 
     /**
@@ -133,25 +141,36 @@ public class BlogPostController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    /**
+     * Adds like to a comment.
+     * @param postId id of the blog post that has the comment
+     * @param commentId id of the comment
+     * @return updated state of the affected blog post
+     */
     @PostMapping("/{postId}/comment/{commentId}/like")
     @Transactional
-    public Map<String, Long> addCommentLike(@PathVariable long postId, @PathVariable long commentId) {
+    public Optional<BlogPost> addCommentLike(@PathVariable long postId, @PathVariable long commentId) {
         Optional<Comment> c = commentDB.findById(commentId);
         c.ifPresent(comment -> {
             comment.addLike();
             commentDB.save(comment);
         });
-        return Collections.singletonMap("likes", c.map(Comment::getLikes).orElse((long) -1));
+        return blogPostDB.findById(postId);
     }
 
+    /**
+     * Deletes comment from database.
+     * @param postId id of the blog post
+     * @param commentId id of the comment
+     * @return updated state of the affected blog post
+     */
     @DeleteMapping("/{postId}/comment/{commentId}")
     @Transactional
-    public ResponseEntity<Void> deleteComment(@PathVariable long postId, @PathVariable long commentId) {
+    public BlogPost deleteComment(@PathVariable long postId, @PathVariable long commentId) {
         BlogPost post = blogPostDB.findById(postId).get();
         Comment comment = commentDB.findById(commentId).get();
         post.getComments().remove(comment);
         commentDB.delete(comment);
-        blogPostDB.save(post);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return blogPostDB.save(post);
     }
 }
