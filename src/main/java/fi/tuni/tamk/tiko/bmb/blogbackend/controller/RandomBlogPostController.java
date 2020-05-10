@@ -22,7 +22,6 @@ import java.util.ArrayList;
 @RestController
 @RequestMapping("/api/generateposts")
 public class RandomBlogPostController {
-    private final String CORS = "https://bmb-blog.herokuapp.com";
     @Autowired
     UserRepository userDB;
 
@@ -36,7 +35,6 @@ public class RandomBlogPostController {
      *
      * @return ResponseEntity with headers and HTTP Status
      */
-    //@CrossOrigin(origins = CORS)
     @GetMapping("")
     @Transactional
     public ResponseEntity<BlogPost> generateBlogPosts() {

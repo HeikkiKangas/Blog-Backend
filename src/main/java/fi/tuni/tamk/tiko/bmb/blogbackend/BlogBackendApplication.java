@@ -42,17 +42,24 @@ public class BlogBackendApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		System.out.println("Team Bare Metal Bunnies: Heikki Kangas, Laura Kanerva, Sanni Kytölä");
+		System.out.println("Users:\n\tAdmin\n\t\tusername: admin\n\t\tpassword: admin\n" +
+				"\tUser\n\t\tusername: user\n\t\tpassword: user");
 		System.out.println(
+				"curl http://localhost:8080/api/generateposts \n" +
 				"curl http://localhost:8080/api/posts \n" +
 				"curl http://localhost:8080/api/posts/{post id} \n" +
 				"curl -X POST http://localhost:8080/api/posts -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
 				"curl -X PATCH http://localhost:8080/api/posts/{post id} -d \"{ < BlogPost > }\" -H \"Content-Type:application/json\" \n" +
 				"curl -X DELETE http://localhost:8080/api/posts/{post id} \n" +
-				"curl http://localhost:8080/api/generateposts \n" +
 				"curl -X POST http://localhost:8080/api/posts/{post id}/like \n" +
 				"curl -X POST http://localhost:8080/api/posts/{post id}/comment -d \"{ < Comment > }\" -H \"Content-Type:application/json\" \n" +
 				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id} \n" +
-				"curl -X DELETE http://localhost:8080/api/posts/{post id}/comment/{comment id}/like"
+				"curl -X POST http://localhost:8080/api/posts/{post id}/comment/{comment id}/like \n" +
+				"curl http://localhost:8080/api/users \n" +
+				"curl http://localhost:8080/api/users/{user id} \n" +
+				"curl -X POST http://localhost:8080/api/users/ -d \"{ < User > }\" -H \"Content-Type:application/json\" \n" +
+				"curl -X PATCH http://localhost:8080/api/users/id -d \"{ < User > }\" -H \"Content-Type:application/json\" \n" +
+				"curl -X DELETE http://localhost:8080/api/users/{user id}"
 		);
 
 		User u = new User("admin", passwordEncoder().encode("admin"), true);
